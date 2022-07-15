@@ -45,14 +45,24 @@ CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'
 
 FIELD-SYMBOLS <fs>.
 ASSIGN COMPONENT sy-index OF STRUCTURE it2 TO <fs>.
-BREAK-POINT.
 
+
+DATA plus type i.
+
+data wa3 like wa2.
 
 loop at it into data(wa).
-  at new row.
-    append wa-value to it2.
+  at new row. " every different row
+    append initial line to it2 assigning field-symbol(<fs_data>).
+    plus = 1.
   endat.
+
+  assign component plus of structure it to <fs>.
+  <fs> = wa-value.
+  plus = plus + 1.
+
 endloop.
+
 
 *  LOOP AT it_excel INTO wa_excel.
 *    AT NEW ROW.
